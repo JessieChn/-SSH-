@@ -1,0 +1,59 @@
+*{margin:0;padding:0;}
+
+body{padding-top:50px; background:#FDFDFD; font-family:Tahoma,Helvetica,Arial,sans-serif; font-size:14px; color:#666; text-decoration:none;}
+
+a{font-family:Tahoma,Helvetica,Arial,sans-serif; font-size:14px; color:#666; text-decoration:none; outline:none;}
+
+img,.searchtxt,.searchbtn,.pinglun input.submit{border:0;}
+
+ol,ul,li{list-style:none;}
+
+dl,dt,dd,ul,li{margin:0;padding:0;}
+
+input,textarea{outline:none;}
+
+html,body,form,p,div,h1,h2,h3,h4,h5,h6{-webkit-text-size-adjust:none; font-weight:normal;}
+
+.common{margin:0 300px 0 auto; width:1440px; position:relative;}
+
+.common ul li{margin-left:20px;}
+
+.clear{clear:both;}
+
+.summary{background:#333;}
+
+.listbox{float:left; margin-bottom:20px; padding:5px; _padding:10px 10px 8px 10px ;background:#f6f6f6; width:225px; height:325px; position:relative;}
+
+.listimg{float:left; width:225px; height:225px; position:relative; overflow:hidden;}
+
+.listimg img{background:#333; width:225px; height:225px; top:0; left:0; position:absolute;}
+
+.summary{width:260px;height:150px;top:225px;left:0;position:absolute;}
+
+.summarytxt{margin:5px 10px;width:250px;height:auto;line-height:22px;font-size:12px;color:#cfcfcf;}
+
+.listinfo{_margin-bottom:3px; padding-left:0px; width:150px; line-height:22px; font-size:3px;}
+
+.listinfo a{font-size:10px;}
+
+.listtitle{float:left; margin-top:8px; _margin-top:-2px; width:225px; font-size:xx-small;}
+
+.listtitle a{font-size:10px;}
+
+.listtitle a:hover{color:#f55555;}
+
+.listtag{float:left;padding-left:18px;background:url(../images/taglist.gif) 0 5px no-repeat;width:232px;color:#999;}
+
+.listtag a{margin:0 8px 0 0;margin:2px 8px -2px 0\9;_margin:0 8px 0 0;color:#999;}
+
+.listtag a:hover{color:#2ad2bb;}
+
+.listdate{float:left;margin-right:13px;padding-left:18px;background:url(../images/time.gif) 0 5px no-repeat;color:#999;}
+
+.listview{float:left;margin-right:13px;padding-left:24px;background:url(../images/view.gif) 0 5px no-repeat;color:#999;}
+
+.listcomment{float:left;margin-right:13px;padding-left:20px;background:url(../images/comment.gif) 0 5px no-repeat;color:#999;}
+
+.listdemo a{float:left;margin-top:0;margin-top:2px\9;_margin-top:0;color:#999;white-space:nowrap;}
+
+.listdemo a:hover{color:#2ad2bb;}

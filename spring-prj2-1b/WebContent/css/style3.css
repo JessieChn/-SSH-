@@ -1,0 +1,30 @@
+
+
+.promo-area {
+  background:#ffffff;
+  color: #fff;
+  padding: 40px 0 40px;
+  margin-top:300px;
+  margin-right:90px;
+}
+
+
+
+.promo-area .zigzag-bottom, .brands-area .zigzag-bottom{background: #f4f4f4}
+.single-promo {
+    font-size: 25px;
+    font-weight: 200;
+    padding: 20px 10px;
+    text-align: center;
+}
+.single-promo i {
+  font-size: 50px;
+}
+
+.single-promo:hover { color: #fff;background: #222;}
+.promo1 { background:#5a88ca;}
+.promo2 { background:#ffd900;}
+.promo3 { background:#fa8072;}
+.promo4 { background:#4abebd;}
+
+

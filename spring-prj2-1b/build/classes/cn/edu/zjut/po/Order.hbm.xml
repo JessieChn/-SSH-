@@ -1,0 +1,39 @@
+<?xml version = "1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+    <class name="cn.edu.zjut.po.Order" table="order" catalog="hibernatedb">
+         <id name="orderId" type="int">
+              <column name="orderId"/>
+              <generator class="assigned"/>
+         </id>
+         <property name="submitTime" type="date">
+              <column name="submitTime" length="20"/>
+         </property>
+         <property name="orderStatu" type="int">
+              <column name="orderStatu" length="1"/>
+         </property>
+         <property name="orderPicSet" type="string">
+              <column name="orderPicSet"/>
+         </property>
+         <property name="orderDescription" type="string">
+              <column name="orderDescription" length="500"/>
+         </property>
+         <property name="receiverName" type="string">
+              <column name="receiverName" length="15"/>
+         </property>
+         <property name="phoneNumber" type="string">
+              <column name="phoneNumber" length="14"/>
+         </property>
+         <property name="wayToSend" type="string">
+              <column name="wayToSend" length="10"/>
+         </property>
+         <property name="address" type="string">
+              <column name="address" length="255"/>
+         </property>
+         <property name="valiStatu" type="int">
+              <column name="valiStatu" length="1"/>
+         </property>
+         <many-to-one name="customer" class="cn.edu.zjut.po.Customer" column="orderOwner" cascade="all" />
+      </class>
+ </hibernate-mapping>

@@ -1,0 +1,37 @@
+#container{
+    background-color: lightyellow;
+    width: 960px;
+    margin: 0 auto;
+}
+#header{
+    height: 80px;
+    background-color: yellowgreen;
+}
+#mainer{
+  /*background-size: 100%;*/
+
+}
+#main{
+height:400px;
+    
+    /*background-color: purple;*/
+     background: url(../image/注册.jpg) no-repeat;
+  background-size: 100%;
+  z-index:4;
+}
+#login{
+    border-radius:25px;
+    height: 250px;
+    width: 410px;
+    background-color: white;
+    position: relative;
+    top:20%;
+    left: 57%;
+    z-index:5;
+}
+ 
+#footer{
+    background-color: lightskyblue;
+    height: 60px;
+}
+

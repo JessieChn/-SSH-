@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+   <constant name="struts.i18n.encoding" value="utf-8"></constant>
+   <constant name="struts.devMode" value="false"></constant>
+     <package name="strutsBean" extends="struts-default" namespace="/">
+       
+       <action name="register" class="userAction" method="register">
+          <result name="success">/regSuccess.jsp</result>
+          <result name="fail">/regFail.jsp</result>
+       </action>
+       <action name="bookAdd" class="userAction" method="bookAdd">
+          <result name="success">/index.jsp</result>
+       </action>
+       <action name="bookEdit" class="userAction" method="bookEdit">
+          <result name="success">/bookEdit.jsp</result>
+       </action>
+       <action name="bookUpdate" class="userAction" method="bookUpdate">
+          <result name="success">/index.jsp</result>
+       </action>
+       <action name="bookDelete" class="userAction" method="bookDelete">
+          <result name="success">/index.jsp</result>
+       </action>
+              <action name="login" class="userAction" method="login">
+          <result name="success">/regSuccess.jsp</result>
+          <result name="false">/login.jsp</result>
+       </action>
+<!--       <action name="register" class="userAction" method="getCustomerInfo">
+          <result name="success">/regSuccess.jsp</result>
+          <result name="fail">/regFail.jsp</result>
+       </action> -->
+       <action name="getCustomerInfo1" class="userAction" method="getCustomerInfo">
+          <result name="success">/customerShow.jsp</result>
+          <result name="fail">/regFail.jsp</result>
+       </action>
+       <action name="customerInforEdit" class="userAction" method="customerInforEdit">
+          <result name="success">/customerInfoEdit.jsp</result>
+       </action>
+       <action name="customerInforUpdate" class="userAction" method="customerInforUpdater">
+          <result name="success">/updateCustomerInfo.jsp</result>
+       </action>
+       <action name="customerInforDelete" class="userAction" method="customerInforDelete">
+          <result name="success">/updateCustomerInfo.jsp</result>
+       </action>
+       <action name="BookAction" class="bookAction" method="paging">
+          <result name="success">/book.jsp</result>
+       </action>
+       <action name="setFilter" class="bookAction" method="setFilter">
+          <result name="success">/index.jsp</result>
+       </action>
+      </package>
+</struts>
