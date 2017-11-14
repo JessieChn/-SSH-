@@ -12,4 +12,7 @@ public class BaseHibernateDAO {
 	public void setSessionFactory(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
 }

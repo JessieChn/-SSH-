@@ -8,21 +8,111 @@
 <sx:head/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" charset="utf-8">
+function check(name,reg,spanname,okinfor,errorinfor)
+{
+    var flag;
+	var val=document.getElementsByName(name)[0].value;
+	var spanname2=document.getElementById(spanname);
+	if(reg.test(val)){
+	spanname2.innerHTML = okinfor;
+	flag=true;
+	}
+	else{
+	spanname2.innerHTML = errorinfor;
+	flag = false;
+	}
+	return flag;
+}
+
+
+
+
+
+
+function checkUser(){
+    var reg = new RegExp("^[a-zA-Z][a-zA-Z0-9]{4,15}$");
+    var flag = check("loginUser.account",reg,"accountspan","正确","错误");
+    return flag;
+}
+
+function checkPassWord(){
+    var reg = new RegExp("^[A-Za-z0-9]+$");
+    var flag = check("loginUser.password",reg,"passwordspan","正确","错误");
+    return flag;
+}
+
+function checkTrueName(){
+    var reg = new RegExp("[\u4e00-\u9fa5]");
+    var flag = check("loginUser.name",reg,"namespan","正确","错误");
+    return flag;
+}
+
+function checkPhoneNumber(){
+    var reg = new RegExp("13[0-9]{9}");
+    var flag = check("loginUser.phone",reg,"phonespan","正确","错误");
+    return flag;
+}
+
+function address(){
+	var span = document.getElementById("addressspan")
+	span.innerHTML = "正确";
+}
+
+function checkEmail(){
+    var reg = new RegExp("^\\w+@\\w+(\\.\\w{2,3})*\\.\\w{2,3}$");
+    var flag = check("loginUser.email",reg,"emailspan","正确","错误");
+    return flag;
+}
+
+function checkZipcode(){
+    var reg = new RegExp("^[1-9][0-9]{5}$");
+    var flag = check("loginUser.zipcode",reg,"zipcodespan","正确","错误");
+    return flag;
+}
+function checkFax(){
+    var reg = new RegExp("[0-9]{7,8}");
+    var flag = check("loginUser.fax",reg,"faxspan","正确","错误");
+    return flag;
+}
+function queding(){
+	if(checkUser()==true&&checkPassWord()==true&&
+			checkTrueName()==true&&checkZipcode()==true&&checkFax()==true&&
+			checkPhoneNumber()==true&&checkEmail()==true){
+		alert("格式正确！");
+		return true;
+	}
+	else 
+		{
+		alert("格式错误！打回重写");
+		return false;
+		}
+}
+</script>
 </head>
 <body>
-<s:form action="register" method="post" namespace="/">
-<s:textfield name="loginUser.account" label="请输入用户名"/>
-<s:textfield name="loginUser.password" label="请输入密码"/>
- <s:textfield name="loginUser.name"  label="请输入姓名"	/>
-<s:radio name="loginUser.sex" list="#{1:'男',0:'女'}" value="0"  label="请输入性别"/>
-   <sx:datetimepicker name="loginUser.birthday" label="请输入日期" displayFormat="yyyy-MM-dd" value="%{'2010-01-01'}"/>
-<s:textfield name="loginUser.phone" label="请输入手机"/>
-<s:textfield name="loginUser.email" label="请输入邮件"/>
-<s:textfield name="loginUser.address"  label="请输入地址"/>
-<s:textfield name="loginUser.zipcode" label="请输入邮政编码"/>
-<s:textfield name="loginUser.fax"  label="请输入传真地址"/>
-<s:submit value="注册" />
-<s:reset value="重置" />
+
+<s:form action="register" method="post" namespace="/" theme="simple">
+请输入用户名<s:textfield name="loginUser.account" label="请输入用户名"  onBlur="checkUser()"/>
+<s:label id="accountspan" value="匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字)"></s:label><br>
+请输入密码<s:password name="loginUser.password" label="请输入密码" onBlur="checkPassWord()"/>
+<s:label id="passwordspan" value="匹配数字和字母"></s:label><br>
+ 请输入姓名<s:textfield name="loginUser.name"  label="请输入姓名"	onBlur="checkTrueName()"/>
+ <s:label id="namespan" value="匹配汉字"></s:label><br>
+请输入性别<s:radio name="loginUser.sex" list="#{1:'男',0:'女'}" value="0"  label="请输入性别"/><br>
+请输入日期<sx:datetimepicker name="loginUser.birthday" label="请输入日期" displayFormat="yyyy-MM-dd" value="%{'2010-01-01'}"/><br>
+请输入手机<s:textfield name="loginUser.phone" label="请输入手机" onBlur="checkPhoneNumber()"/>
+<s:label id="phonespan" value="匹配手机号 如13538628500"></s:label><br>
+请输入邮件<s:textfield name="loginUser.email" label="请输入邮件" onBlur="checkEmail()"/>
+<s:label id="emailspan" value="匹配邮箱 如183398897@qq.com"></s:label><br>
+请输入地址<s:textfield name="loginUser.address"  label="请输入地址" onBlur="address()"/>
+<s:label id="addressspan" value="任意 可以为空"></s:label><br>
+请输入邮政编码<s:textfield name="loginUser.zipcode" label="请输入邮政编码" onBlur="checkZipcode()"/>
+<s:label id="zipcodespan" value="邮政编码的验证（开头不能为0，共6位）"></s:label><br>
+请输入传真地址<s:textfield name="loginUser.fax"  label="请输入传真地址" onBlur="checkFax()"/>
+<s:label id="faxspan" value="0到9 7位数字以上"></s:label><br>
+<s:submit value="注册"  onclick="return queding();" /><br>
+<s:reset value="重置" /><br>
 </s:form>
 
 

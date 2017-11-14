@@ -8,6 +8,13 @@ public class PageBean {
 	private int curPage; //当前页
 	private int sumPages; //总页数
 	public List<Book> books = new ArrayList<Book>();
+	public List<Customer> getCustomers() {
+		return customers;
+	}
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+	public List<Customer> customers = new ArrayList<Customer>();
 	public static int curPage(int page){  //获取当前页数
 		return page == 0 ? 1 : page;
 	}

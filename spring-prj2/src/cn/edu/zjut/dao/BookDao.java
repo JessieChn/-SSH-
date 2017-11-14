@@ -3,6 +3,7 @@ package cn.edu.zjut.dao;
 import java.util.List;
 
 import cn.edu.zjut.po.Book;
+import cn.edu.zjut.po.Customer;
 
 public interface BookDao {
 	public List<Book> findForPage(String hql,int off,int len); 

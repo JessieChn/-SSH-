@@ -37,5 +37,8 @@
          <property name="fax" type="string">
               <column name="fax" length="20"/>
          </property>
+         <property name="permission" type="int">
+              <column name="permission"/>
+         </property>
       </class>
  </hibernate-mapping>

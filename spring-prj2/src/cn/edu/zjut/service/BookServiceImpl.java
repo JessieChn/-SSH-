@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.edu.zjut.dao.BookDao;
 import cn.edu.zjut.po.Book;
+import cn.edu.zjut.po.Customer;
 import cn.edu.zjut.po.PageBean;
 import cn.edu.zjut.service.BookService;
 
@@ -34,5 +35,9 @@ public class BookServiceImpl implements BookService{
 		pageBean.setBooks(books);
 		return pageBean;
 	}
+
+
+	
+
 
 }

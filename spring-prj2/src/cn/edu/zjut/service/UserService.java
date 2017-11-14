@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.edu.zjut.dao.ICustomerDAO;  //注意这里是导入接口
+import cn.edu.zjut.po.Book;
 import cn.edu.zjut.po.Customer;
+import cn.edu.zjut.po.PageBean;
 
 public class UserService implements IUserService{
 	private ICustomerDAO customerDAO = null;
@@ -51,5 +53,54 @@ public class UserService implements IUserService{
 	public void customerInfoDelete(String id) {
 		customerDAO.delete(id);
 		
+	}
+	@Override
+	public void bookAdd(Book book) {
+		// TODO 自动生成的方法存根
+		customerDAO.bookAdd(book);
+		
+	}
+	@Override
+	public List bookEdit(String id) {
+		// TODO 自动生成的方法存根
+		List list = customerDAO.bookEdit(id);
+		return list;
+		
+	}
+	@Override
+	public void bookDelete(String id) {
+		// TODO 自动生成的方法存根
+		customerDAO.bookDelete(id);
+	}
+	@Override
+	public List getBookById(String id) {
+		// TODO 自动生成的方法存根
+		return null;
+	}
+	@Override
+	public List getBookList() {
+		// TODO 自动生成的方法存根
+		List list = customerDAO.getBookList();
+		return list;
+	}
+	@Override
+	public void bookUpdate(Book book) {
+		customerDAO.bookUpdate(book);
+		
+	}
+	public PageBean queryForPageForUser(int pageSize, int page) {
+		// TODO 自动生成的方法存根
+		String hql = "from Customer customer";
+		int allRowCounts = customerDAO.findAllRowCountsForUser(hql);
+		int curPage = PageBean.curPage(page);
+		int curOffset = PageBean.curOffset(pageSize, curPage);
+		int sumPages = PageBean.getSumPages(allRowCounts, pageSize);
+		List<Customer> customers = customerDAO.findForPageForUser(hql, curOffset, pageSize);
+		PageBean pageBean = new PageBean();
+		pageBean.setAllRowCounts(allRowCounts);
+		pageBean.setCurPage(curPage);
+		pageBean.setSumPages(sumPages);
+		pageBean.setCustomers(customers);
+		return pageBean;
 	}
 }

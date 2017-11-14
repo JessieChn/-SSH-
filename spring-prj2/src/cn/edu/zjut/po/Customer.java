@@ -13,6 +13,7 @@ public class Customer implements java.io.Serializable{
 	private String address;
 	private String zipcode;
 	private String fax;
+	private int permission;
 	public Customer(){
 		
 	}
@@ -21,7 +22,7 @@ public class Customer implements java.io.Serializable{
 	}
 	public Customer(int customerId,String account,String password,
 			String name,int sex,Date birthday,String phone,
-			String email,String address,String zipcode,String fax){
+			String email,String address,String zipcode,String fax,int permission){
 		this.customerId = customerId;
 		this.account = account;
 		this.password = password;
@@ -33,6 +34,7 @@ public class Customer implements java.io.Serializable{
 		this.address = address;
 		this.zipcode = zipcode;
 		this.fax = fax;
+		this.permission = permission;
 	}
 	public int getCustomerId() {
 		return customerId;
@@ -99,6 +101,12 @@ public class Customer implements java.io.Serializable{
 	}
 	public void setFax(String fax) {
 		this.fax = fax;
+	}
+	public int getPermission() {
+		return permission;
+	}
+	public void setPermission(int permission) {
+		this.permission = permission;
 	}
 	
 	

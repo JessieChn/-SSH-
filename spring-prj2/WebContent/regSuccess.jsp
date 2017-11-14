@@ -14,6 +14,7 @@
 </style>
 </head>
 <body>
-<s:action name="getCustomerInfo1" namespace="/" executeResult="true"></s:action>
+<%-- <s:action name="getCustomerInfo1" namespace="/" executeResult="true"></s:action> --%>
+<s:action name="PagingForUser" namespace="/" executeResult="true"></s:action>
 </body>
 </html>

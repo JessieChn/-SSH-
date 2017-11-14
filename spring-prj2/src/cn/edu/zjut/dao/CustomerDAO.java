@@ -1,10 +1,14 @@
 package cn.edu.zjut.dao;
 import java.sql.Date;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,7 +22,10 @@ import cn.edu.zjut.po.Book;
 import cn.edu.zjut.po.Customer;
 import cn.edu.zjut.po.Order;
 
+import com.opensymphony.xwork2.ActionContext;
+
 public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
+	
 	
 	public CustomerDAO(){
 		System.out.println("Create CustomerDao");
@@ -60,6 +67,12 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 		  while(its.hasNext()){  
 		   Customer customer=(Customer)its.next();  		   
 		   System.out.println("注册函数"+~~customer.getCustomerId()); 
+		   Map<String, Object> loginSession = ActionContext.getContext().getSession();
+		   loginSession.put("loginedUser",customer.getName());
+		   loginSession.put("loginedUserId", customer.getCustomerId());
+		   loginSession.put("loginedUserPer", customer.getPermission());
+				 
+           
 		   return true;
 		  }  
 		  return false;
@@ -86,6 +99,7 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 				  while(its.hasNext()){  
 				   Customer customer=(Customer)its.next();  
 				   System.out.println(customer.getCustomerId());  
+				   System.out.println(customer.getAccount()); 
 				  }  
 				  System.out.println("dao层"); 
 				tran.commit();		
@@ -160,9 +174,9 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 				  query.setParameter(9,transientInstance.getFax());
 				  query.setParameter(10,transientInstance.getCustomerId());
 				  query.executeUpdate();
-				  Order order = new Order();
+/*				  Order order = new Order();
 				  order.setCustomer(transientInstance);
-				  session.save(order);
+				  session.save(order);*/
 				tran.commit();		
 			}
 			catch(RuntimeException re){
@@ -189,6 +203,365 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 	        tran.commit();
 			
 		}
-	
+		@Override
+		public void bookAdd(Book book) {
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+	        tran = session.beginTransaction();
+	        book.setName("汉语口语");
+			session.save(book);
+			tran.commit();
+			session.close();
+		}
+		@Override
+		public List bookEdit(String id) {
+			Transaction tran = null;
+			Session session = null;
+			List<Book> list;
+			session = getSession();
+			tran = session.beginTransaction();
+			String hql="from Book where id = ?";  
+			Query query=session.createQuery(hql);  
+			query.setParameter(0, Integer.parseInt(id));
+			list= query.list();
+			tran.commit();		
+		    session.close();
+		    return list;
+		}
+		@Override
+		public void bookUpdate(Book book) {
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+		    tran = session.beginTransaction();
+		    String hql="update Book b set b.name=?,"
+				  		+ "b.description=?, "
+				  		+ "b.price=?, "
+				  		+ "b.press=?, "
+				  		+ "b.writerLocation=?, "
+				  		+ "b.type=?, "
+				  		+ "b.writer=? "
+				  		+ " where id=?";  
+		   Query query=session.createQuery(hql);  
+		   query.setParameter(0,book.getName());
+		   query.setParameter(1,book.getDescription());
+		   query.setParameter(2,book.getPrice());
+		   query.setParameter(3,book.getPress());
+		   query.setParameter(4,book.getWriterLocation());
+		   query.setParameter(5,book.getType());
+		   query.setParameter(6,book.getWriter());
+		   query.setParameter(7,book.getId());
+		   query.executeUpdate();
+		   tran.commit();		
+		   session.close();
+		}
+		@Override
+		public void bookDelete(String id) {
+			// TODO 自动生成的方法存根
+			Transaction tran = null;
+			Session session = null;
+	        Book book = new Book();
+	        book.setId(Integer.parseInt(id));       
+	        session = this.getSession();  
+	        tran = session.beginTransaction();  
+	        session.delete(book);  
+	        tran.commit();
+			
+		}
+		@Override
+		public List getBookById(String id) {
+			// TODO 自动生成的方法存根
+			return null;
+		}
+		@Override
+		public List getBookList() {
+			Transaction tran = null;
+			Session session = null;
+			List<Book> list;
+			session = getSession();
+		    tran = session.beginTransaction();
+		    String hql="from Book";  
+			Query query=session.createQuery(hql);  
+		    list= query.list();
+			tran.commit();		
+			session.close();
+		    return list;
+		}
+		@Override
+		public List<Customer> findForPageForUser(String hql, int off, int len) /*{
+			Session session = this.getSessionFactory().openSession();
+			
+			Query query = session.createQuery(hql);
+			query.setFirstResult(off);
+			query.setMaxResults(len);
+			List<Customer> customers = query.list();
+			session.close();
+			return customers;
+		}*/
+		{
+			boolean[] siftornot = {true,true,true,true,true,true,true,true,true,true,true};
+			Query query = null;
+			Map<String,String> map = new HashMap<String, String>();
+			String fcas = "",fcps = "",fcns = "",fcss = "",fcbs ="",fcps2 = "",fces= "",fcas2="",fczs="",fcfs="",fcps3=""; //filter customer 
+			Session session = this.getSession();
+			Map<String, Object> httpSession =  ActionContext.getContext().getSession();
+			Object fca =  httpSession.get("account_s");
+			Object fcp =  httpSession.get("password_s");
+			Object fcn =  httpSession.get("name_s");
+			Object fcs =  httpSession.get("sex_s");
+			Object fcb =  httpSession.get("birthday_s");
+			Object fcp2 =  httpSession.get("phone_s");
+			Object fce =  httpSession.get("email_s");
+			Object fca2 =  httpSession.get("address_s");
+			Object fcz =  httpSession.get("zipcode_s");
+			Object fcf =  httpSession.get("fax_s");
+			Object fcp3 =  httpSession.get("permission_s");
 
-}
+			if((fca==null||fca.equals("")))
+				siftornot[0] = false;
+			if((fcp==null||fcp.equals("")))
+				siftornot[1] = false;
+			if((fcn==null||fcn.equals("")))
+				siftornot[2] = false;
+			if((fcs==null||fcs.equals("")))
+				siftornot[3] = false;
+			if(fcb==null||fcb.equals(""))
+				siftornot[4] = false;
+			if((fcp2==null||fcp2.equals("")))
+				siftornot[5] = false;
+			if((fce==null||fce.equals("")))
+				siftornot[6] = false;
+			if((fca2==null||fca2.equals("")))
+				siftornot[7] = false;
+			if((fcz==null||fcz.equals("")))
+				siftornot[8] = false;
+			if(fcf==null||fcf.equals(""))
+				siftornot[9] = false;
+			if((fcp3==null||fcp3.equals("")))
+				siftornot[10] = false;
+			fcas = (String)fca;
+			fcps = (String)fcp;
+			fcns = (String)fcn;
+			fcss = (String)fcs;
+			fcbs = (String)fcb;
+			fcps2 = (String)fcp2;
+			fces= (String)fce;
+			fcas2 = (String)fca2;
+			fczs = (String)fcz;
+			fcfs = (String)fcf;
+			fcps3= (String)fcp3;
+			hql = hql + " where 1=1 ";
+			String account=" and account like :account ";
+			String password=" and password like :password ";
+			String name=" and name like :name ";
+			String sex=" and sex like :sex ";
+			String birthday=" and birthday like :birthday ";
+
+			String phone=" and phone like :phone ";
+			String email=" and email like :email ";
+			String address=" and address like :address ";
+			String zipcode=" and zipcode like :zipcode ";
+			String fax=" and fax like :fax ";
+
+			String permission=" and permission like :permission ";
+			if(siftornot[0]){
+				hql = hql + account;
+				map.put("account",fcas);
+			}
+			if(siftornot[1]){
+				hql = hql + password;
+				map.put("password",fcps);
+	        }
+		    if(siftornot[2]){
+					hql = hql + name;
+					map.put("name",fcns);
+				}
+			if(siftornot[3]){
+			        hql = hql + sex;
+			        map.put("sex",fcss);
+				}
+			if(siftornot[4]){
+					hql = hql + birthday;
+					map.put("birthday",fcbs);
+				}
+			if(siftornot[5]){
+		        hql = hql + phone;
+		        map.put("phone",fcps2);
+			}
+	     	if(siftornot[6]){
+				hql = hql + email;
+				map.put("email",fces);
+			}
+		   if(siftornot[7]){
+	        hql = hql + address;
+	        map.put("address",fcas2);
+		}
+	       if(siftornot[8]){
+			hql = hql + zipcode;
+			map.put("zipcode",fczs);
+		}
+	       if(siftornot[9]){
+        hql = hql + fax;
+        map.put("fax",fcfs);
+	}
+           if(siftornot[10]){
+		hql = hql + permission;
+		map.put("permission",fcps3);
+	}
+				query = session.createQuery(hql);
+				
+				
+				Set<String> keySet = map.keySet();
+				java.util.Iterator<String> it = keySet.iterator();
+				while(it.hasNext()){
+					Object key = it.next();
+					String keys = key.toString();
+					Object value = map.get(key);
+					query.setParameter(keys, "%" + value + "%");
+					
+				}
+				query.setFirstResult(off);
+				query.setMaxResults(len);
+				List<Customer> customers = query.list();
+	        return customers;
+		}
+		@Override
+		public int findAllRowCountsForUser(String hql) /*{
+			Session session = this.getSession();
+	        Query query = session.createQuery(hql);
+	        return query.list().size();
+		}*/
+		
+		{
+			boolean[] siftornot = {true,true,true,true,true,true,true,true,true,true,true};
+			Query query = null;
+			Map<String,String> map = new HashMap<String, String>();
+			String fcas = "",fcps = "",fcns = "",fcss = "",fcbs ="",fcps2 = "",fces= "",fcas2="",fczs="",fcfs="",fcps3=""; //filter customer 
+			Session session = this.getSession();
+			Map<String, Object> httpSession =  ActionContext.getContext().getSession();
+			Object fca =  httpSession.get("account_s");
+			Object fcp =  httpSession.get("password_s");
+			Object fcn =  httpSession.get("name_s");
+			Object fcs =  httpSession.get("sex_s");
+			Object fcb =  httpSession.get("birthday_s");
+			Object fcp2 =  httpSession.get("phone_s");
+			Object fce =  httpSession.get("email_s");
+			Object fca2 =  httpSession.get("address_s");
+			Object fcz =  httpSession.get("zipcode_s");
+			Object fcf =  httpSession.get("fax_s");
+			Object fcp3 =  httpSession.get("permission_s");
+
+
+			if((fca==null||fca.equals("")))
+				siftornot[0] = false;
+			if((fcp==null||fcp.equals("")))
+				siftornot[1] = false;
+			if((fcn==null||fcn.equals("")))
+				siftornot[2] = false;
+			if((fcs==null||fcs.equals("")))
+				siftornot[3] = false;
+			if(fcb==null||fcb.equals(""))
+				siftornot[4] = false;
+			if((fcp2==null||fcp2.equals("")))
+				siftornot[5] = false;
+			if((fce==null||fce.equals("")))
+				siftornot[6] = false;
+			if((fca2==null||fca2.equals("")))
+				siftornot[7] = false;
+			if((fcz==null||fcz.equals("")))
+				siftornot[8] = false;
+			if(fcf==null||fcf.equals(""))
+				siftornot[9] = false;
+			if((fcp3==null||fcp3.equals("")))
+				siftornot[10] = false;
+			fcas = (String)fca;
+			fcps = (String)fcp;
+			fcns = (String)fcn;
+			fcss = (String)fcs;
+			fcbs = (String)fcb;
+			fcps2 = (String)fcp2;
+			fces= (String)fce;
+			fcas2 = (String)fca2;
+			fczs = (String)fcz;
+			fcfs = (String)fcf;
+			fcps3= (String)fcp3;
+			hql = hql + " where 1=1 ";
+			String account=" and account like :account ";
+			String password=" and password like :password ";
+			String name=" and name like :name ";
+			String sex=" and sex like :sex ";
+			String birthday=" and birthday like :birthday ";
+
+			String phone=" and phone like :phone ";
+			String email=" and email like :email ";
+			String address=" and address like :address ";
+			String zipcode=" and zipcode like :zipcode ";
+			String fax=" and fax like :fax ";
+
+			String permission=" and permission like :permission ";
+			if(siftornot[0]){
+				hql = hql + account;
+				map.put("account",fcas);
+			}
+			if(siftornot[1]){
+				hql = hql + password;
+				map.put("password",fcps);
+	        }
+		    if(siftornot[2]){
+					hql = hql + name;
+					map.put("name",fcns);
+				}
+			if(siftornot[3]){
+			        hql = hql + sex;
+			        map.put("sex",fcss);
+				}
+			if(siftornot[4]){
+					hql = hql + birthday;
+					map.put("birthday",fcbs);
+				}
+			if(siftornot[5]){
+		        hql = hql + phone;
+		        map.put("phone",fcps2);
+			}
+	     	if(siftornot[6]){
+				hql = hql + email;
+				map.put("email",fces);
+			}
+		   if(siftornot[7]){
+	        hql = hql + address;
+	        map.put("address",fcas2);
+		}
+	       if(siftornot[8]){
+			hql = hql + zipcode;
+			map.put("zipcode",fczs);
+		}
+	       if(siftornot[9]){
+        hql = hql + fax;
+        map.put("fax",fcfs);
+	}
+           if(siftornot[10]){
+		hql = hql + permission;
+		map.put("permission",fcps3);
+	}
+				query = session.createQuery(hql);
+				Set<String> keySet = map.keySet();
+				java.util.Iterator<String> it = keySet.iterator();
+				while(it.hasNext()){
+					Object key = it.next();
+					String keys = key.toString();
+					Object value = map.get(key);
+					query.setParameter(keys, "%" + value + "%");
+					
+				}
+			
+			
+				
+	        return query.list().size();
+		}
+	}
+
+
+
+
+
