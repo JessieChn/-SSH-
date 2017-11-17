@@ -35,6 +35,16 @@ public class BookServiceImpl implements BookService{
 		pageBean.setBooks(books);
 		return pageBean;
 	}
+	
+	
+	public PageBean queryForPageForShop() {
+		// TODO 自动生成的方法存根
+		String hql = "from Book book";
+		List<Book> books = bookDao.findForPageShop(hql);
+		PageBean pageBean = new PageBean();
+		pageBean.setBooks(books);
+		return pageBean;
+	}
 
 
 	

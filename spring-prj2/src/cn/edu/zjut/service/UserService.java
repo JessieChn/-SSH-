@@ -1,5 +1,6 @@
 package cn.edu.zjut.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import cn.edu.zjut.dao.ICustomerDAO;  //注意这里是导入接口
 import cn.edu.zjut.po.Book;
 import cn.edu.zjut.po.Customer;
+import cn.edu.zjut.po.Order;
 import cn.edu.zjut.po.PageBean;
 
 public class UserService implements IUserService{
@@ -102,5 +104,11 @@ public class UserService implements IUserService{
 		pageBean.setSumPages(sumPages);
 		pageBean.setCustomers(customers);
 		return pageBean;
+	}
+	@Override
+	public void orderAdd(Order order) throws ParseException {
+		// TODO 自动生成的方法存根
+		customerDAO.orderAdd(order);
+		
 	}
 }

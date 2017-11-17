@@ -1,14 +1,17 @@
 package cn.edu.zjut.service;
 
 
+import java.text.ParseException;
 import java.util.List;
 
 import cn.edu.zjut.po.Book;
 import cn.edu.zjut.po.Customer;
+import cn.edu.zjut.po.Order;
 import cn.edu.zjut.po.PageBean;
 
 public interface IUserService {
 	public void register(Customer transientInstance);
+	public void orderAdd(Order order) throws ParseException;
 	public List getCustomerInfo();
 	public List getCustomerInfoById(String id);
 	public void customerInfoUpdate(Customer transientInstance);

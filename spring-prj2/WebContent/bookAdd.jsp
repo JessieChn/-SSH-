@@ -2,12 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<sx:head/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap 101 Template</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <script type="text/javascript" charset="utf-8">
 function check(name,reg,spanname,okinfor,errorinfor)
 {
@@ -78,26 +80,126 @@ function queding(){
 	out.println("</script>");
 	 %>
 </s:if>
-<s:form action="bookAdd" method="post" namespace="/" enctype="multipart/form-data"  theme="simple">
-请输入书名<s:textfield name="book.name" label="请输入书名" onBlur="checkBookName()"/>
-<s:label id="namespan" value="匹配书名是否合法(不为空且不超过12个字节)" ></s:label><br>
-图书图片<s:file  name="upload" label="图书图片"/>  <br>
-请输入图书的描述<s:textfield name="book.description"  label="请输入图书的描述"  onBlur="checkBookDescription()"/>
-<s:label id="descriptionspan" value="匹配书名是否合法(不为空且不超过55个字节)"></s:label><br>
-请输入图书的价钱<s:textfield name="book.price" label="请输入图书的价钱"  onBlur="checkBookPrice()"/>
-<s:label id="pricespan" value="匹配书的价钱是否合法(1到6位且只为数字)"></s:label><br>
-图书作者<s:textfield name="book.writer"  label="图书作者"  onBlur="checkBookWriter()"/>
-<s:label id="writerspan" value="匹配书的作者是否合法(不为空且不超过10个字节)"></s:label><br>
-图书的出版社<s:select name="book.press" list="#{'清华大学出版社':'清华大学出版社','人民邮电出版社':'人民邮电出版社','高等教育出版社':'高等教育出版社','电子工业出版社':'电子工业出版社'
-,'西安电子科技大学出版社':'西安电子科技大学出版社'}" value="清华大学出版社"  label="图书的出版社"/><br>
-图书作者地域<s:select name="book.writerLocation" list="#{'中国':'中国','美国':'美国','欧印':'欧印','新马泰':'新马泰','非洲南美':'非洲南美'}" value="中国"  label="图书作者地域"/><br>
-图书类别<s:select name="book.type" list="#{'文学综合馆':'文学综合馆','童书馆':'童书馆','教育馆':'教育馆',
-'人文社科馆':'人文社科馆','经管综合馆':'经管综合馆','励志综合馆':'励志综合馆','生活馆':'生活馆','艺术馆':'艺术馆',
-'科技馆':'科技馆','计算机馆':'计算机馆','杂志期刊馆':'杂志期刊馆'}" value="计算机馆"  label="图书类别"/><br>
-<s:submit value="注册"  onclick="return queding();" />
-<s:reset value="重置" />
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+  <div class="col-md-12">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="#">Bootstrap theme</a> </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      
+      <div class="pull-right">
+      <s:if test="%{#session.loginedUserId}">
+      <a href="./loginOut">
+      <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>LogOut </button>
+      </a>
+      </s:if>
+      <s:else>
+      <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User </button>
+      </s:else>
+      </div>
+      <div class="pull-right">
+        <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User </button>
+      </div>
+    </div>
+  </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <div class="navbar"> </div>
+    </div>
+    <div class="col-md-12">
+<h2>图书添加</h2>
+<s:form cssClass="form-horizontal" action="bookAdd" method="post" namespace="/" enctype="multipart/form-data"  theme="simple">
+  <div class="form-group">
+    <label class="col-md-2 control-label">请输入书名</label>
+    <div class="col-md-6">
+      <s:textfield  cssClass="form-control"  name="book.name" label="请输入书名" onBlur="checkBookName()"/>
+    </div>
+    <s:label cssClass="col-md-4" id="namespan"  value="匹配书名是否合法(不为空且不超过12个字节)" ></s:label><br>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">图书图片</label>
+    <div class="col-md-6">
+      <s:file cssClass="form-control"  name="upload" label="图书图片"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">请输入图书的描述</label>
+    <div class="col-md-6">
+      <sx:textarea cssClass="form-control" rows="3" name="book.description"  label="请输入图书的描述"></sx:textarea>
+    </div>
+    <s:label id="descriptionspan" value="无任何要求"></s:label><br>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">请输入图书的价钱</label>
+    <div class="col-md-6">
+      <s:textfield cssClass="form-control" name="book.price" label="请输入图书的价钱"  onBlur="checkBookPrice()"/>
+    </div>
+    <s:label id="pricespan" value="匹配书的价钱是否合法(1到6位且只为数字)"></s:label><br>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">图书作者</label>
+    <div class="col-md-6">
+      <s:textfield cssClass="form-control" name="book.writer"  label="图书作者"  onBlur="checkBookWriter()"/>
+    </div>
+    <s:label id="writerspan" value="匹配书的作者是否合法(不为空且不超过10个字节)"></s:label><br>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">图书的出版社</label>
+    <div class="col-md-6">
+      <s:select cssClass="form-control" name="book.press" 
+                list="#{'清华大学出版社':'清华大学出版社',
+                        '人民邮电出版社':'人民邮电出版社',
+                        '高等教育出版社':'高等教育出版社',
+                        '电子工业出版社':'电子工业出版社',
+                        '西安电子科技大学出版社':'西安电子科技大学出版社'}" 
+                        value="清华大学出版社"  label="图书的出版社"/>    
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">图书作者地域</label>
+    <div class="col-md-6">
+      <s:select cssClass="form-control" name="book.writerLocation" 
+                list="#{'中国':'中国','美国':'美国','欧印':'欧印','新马泰':'新马泰','非洲南美':'非洲南美'}" 
+                value="中国"  
+                label="图书作者地域"/>   
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">图书类别</label>
+    <div class="col-md-6">
+      <s:select cssClass="form-control" name="book.type" 
+                list="#{'文学综合馆':'文学综合馆',
+                        '童书馆':'童书馆',
+                        '教育馆':'教育馆',
+                        '人文社科馆':'人文社科馆',
+                        '经管综合馆':'经管综合馆',
+                        '励志综合馆':'励志综合馆',
+                        '生活馆':'生活馆',
+                        '艺术馆':'艺术馆',
+                        '科技馆':'科技馆',
+                        '计算机馆':'计算机馆',
+                        '杂志期刊馆':'杂志期刊馆'}" 
+                value="计算机馆"  label="图书类别"/>  
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <s:submit value="确定添加" cssClass="btn btn-primary"   onclick="return queding();"/>
+    </div>
+  </div>
 </s:form>
-
+</div>
+</div>
+</div>
 
 </body>
 </html>

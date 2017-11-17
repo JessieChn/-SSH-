@@ -8,7 +8,7 @@
      <package name="strutsBean" extends="struts-default" namespace="/">
        
        <action name="register" class="userAction" method="register">
-          <result name="success">/regSuccess.jsp</result>
+          <result name="success">/BookListT.jsp</result>
           <result name="fail">/regFail.jsp</result>
        </action>
        <action name="bookAdd" class="userAction" method="bookAdd">
@@ -24,11 +24,11 @@
           <result name="success">/index.jsp</result>
        </action>
               <action name="login" class="userAction" method="login">
-          <result name="success">/regSuccess.jsp</result>
+          <result name="success">/BookListT.jsp</result>
           <result name="false">/login.jsp</result>
        </action>
         <action name="loginOut" class="userAction" method="loginOut">
-          <result name="success">/regSuccess.jsp</result>
+          <result name="success">/BookListT.jsp</result>
        </action>
 <!--       <action name="register" class="userAction" method="getCustomerInfo">
           <result name="success">/regSuccess.jsp</result>
@@ -46,7 +46,7 @@
           <result name="success">/customerInfoEdit.jsp</result>
        </action>
        <action name="customerInforUpdate" class="userAction" method="customerInforUpdater">
-          <result name="success">/updateCustomerInfo.jsp</result>
+          <result name="success">/regSuccess.jsp</result>
        </action>
        <action name="customerInforDelete" class="userAction" method="customerInforDelete">
           <result name="success">/updateCustomerInfo.jsp</result>
@@ -60,8 +60,20 @@
               <action name="setFilter2" class="userAction" method="setFilter">
           <result name="success">/regSuccess.jsp</result>
        </action>
+        <action name="setFilter3" class="bookAction" method="setFilter">
+          <result name="success">/BookListT.jsp</result>
+       </action>
        <action name="getCartInfor" class="userAction" method="getCartInfor">
           <result name="success">/ordershow.jsp</result>
+       </action>
+       <action name="orderAdd" class="userAction" method="orderAdd">
+          <result name="success">/bookList2.jsp</result>
+       </action>
+<!--       <action name="BookList" class="userAction" method="getBookList">
+          <result name="success">/bookList2.jsp</result>
+       </action> -->
+       <action name="BookList" class="bookAction" method="pagingForShop">
+          <result name="success">/bookList2.jsp</result>
        </action>
       </package>
 </struts>

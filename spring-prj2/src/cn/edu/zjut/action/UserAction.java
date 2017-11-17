@@ -2,6 +2,7 @@ package cn.edu.zjut.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -148,6 +149,8 @@ public class UserAction extends ActionSupport {
 	}
 	public String bookUpdate(){
 		userService.bookUpdate(book);
+		
+		System.out.print(book.getDescription()+book.getId());
 		return "success";
 	}
 	public String bookDelete(){
@@ -225,7 +228,7 @@ public class UserAction extends ActionSupport {
 		String userid  = session.get("loginedUserId").toString();
 		lists = userService.getCustomerInfoById(userid);	
 		Iterator its = lists.iterator(); 
-		Customer customer = null;
+		Customer customer = new Customer();
 		while(its.hasNext()){  
 		   customer=(Customer)its.next();
 		  }  	
@@ -236,6 +239,20 @@ public class UserAction extends ActionSupport {
 		order.setReceiverName(username);
 		order.setAddress(customer.getAddress());
 		
+		return "success";
+
+	}
+	public String orderAdd() throws ParseException{
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		String userid  = session.get("loginedUserId").toString();
+		lists = userService.getCustomerInfoById(userid);	
+		Iterator its = lists.iterator(); 
+		Customer customer = new Customer();
+		while(its.hasNext()){  
+		   customer=(Customer)its.next();
+		  }  	
+		order.setCustomer(customer);
+		userService.orderAdd(order);
 		return "success";
 
 	}

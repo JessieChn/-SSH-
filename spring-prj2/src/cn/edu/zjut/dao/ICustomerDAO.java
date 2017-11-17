@@ -1,6 +1,9 @@
 package cn.edu.zjut.dao;
 import cn.edu.zjut.po.Book;
 import cn.edu.zjut.po.Customer;
+import cn.edu.zjut.po.Order;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +12,7 @@ import org.hibernate.Session;
 
 public interface ICustomerDAO {
        void save(Customer transientInstance);
+       void orderAdd(Order order) throws ParseException;
        List get();
        List getById(String id);
        void update(Customer transientInstance);

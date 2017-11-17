@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap 101 Template</title>
+<link rel="stylesheet" href="css/jqueryfuns.css">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/lrtk.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery.easydrag.handler.beta2.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -88,7 +93,7 @@ function checkCookie()
        }
     else 
        {
-          shopcart=prompt('Please enter your shopcart:',"")
+          
           if (shopcart!=null && shopcart!=""){
              setCookie('shopcart',shopcart,1)
           }
@@ -306,6 +311,12 @@ function account(btn){
           
             sum();  
         }  
+        function siftPress(btn){  
+            var tr = btn.innerHTML;
+            alert(tr);
+            
+            
+        }  
         //计算总金额  
         function sum() {  
             //获取购物车内所有的数据行  
@@ -329,41 +340,77 @@ function account(btn){
         }  
 </script>
 </head>
-<body  onLoad="checkCookie()">
+<body onLoad="checkCookie()">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="#">Bootstrap theme</a> </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      
+      <div class="pull-right">
+      <s:if test="%{#session.loginedUserId}">
+      <a href="./loginOut">
+      <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>LogOut </button>
+      </a>      
+      </s:if>
+      <s:else>
+      <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User </button>
+      </s:else>
+      </div>
+      <div class="pull-right">
+        <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User </button>
+      </div>
+    </div>
+  </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+     <br> <div class="col-md-offset-2">
+    <s:form action="setFilter3" method="post" namespace="/" theme="simple" cssClass="form-inline">
+<label>书名</label><s:textfield cssClass="form-control" name="bookname_f" label="书名" value="%{#session.filter_book}"/>
+<label>图书类别</label><s:select cssClass="form-control" name="booktype_f" list="#{'':'无','文学综合馆':'文学综合馆','童书馆':'童书馆','教育馆':'教育馆',
+'人文社科馆':'人文社科馆','经管综合馆':'经管综合馆','励志综合馆':'励志综合馆','生活馆':'生活馆','艺术馆':'艺术馆',
+'科技馆':'科技馆','计算机馆':'计算机馆','杂志期刊馆':'杂志期刊馆'}" value="%{#session.filter_type}"  label="图书类别"/>
+<label>作者地区</label><s:select cssClass="form-control" name="bookwriterlocation_f" list="#{'':'无','中国':'中国','美国':'美国','欧印':'欧印','新马泰':'新马泰','非洲南美':'非洲南美'}" value="%{#session.filter_writerlocation}"  label="图书作者地域"/>
+<label>出版社</label><s:select cssClass="form-control" name="bookpress_f" list="#{'':'无','清华大学出版社':'清华大学出版社','人民邮电出版社':'人民邮电出版社','高等教育出版社':'高等教育出版社','电子工业出版社':'电子工业出版社'
+,'西安电子科技大学出版社':'西安电子科技大学出版社'}" value="%{#session.filter_press}"  label="图书的出版社"/>
+<label>价钱</label>：<s:textfield name="pricemin_f" cssClass="form-control"  value="%{#session.filter_pricemin}"/>《
+<s:textfield name="pricemax_f" cssClass="form-control"  value="%{#session.filter_pricemax}"/>
+<s:submit value="查询" cssClass="btn btn-default"/>
+</s:form>
+<br>
+</div>
 <div class="common">
 <ul>
+
+<s:iterator value="books">
+
 <li class="listbox">
-      <div class="listimg"> <a href="" title="WordPress中文博客主题Truepixel"><img class="1.jpg" src="images/1.jpg"  alt="WordPress中文博客主题Truepixel" /></a>
+      <div class="listimg"> <a href=""  title=<s:property value="press"/><s:property value="writerLocation"/><s:property value="type"/><s:property value="writer"/>><img class=<s:property value="picture"/> src="images/<s:property value="picture"/>"  alt=<s:property value="press"/><s:property value="writerLocation"/><s:property value="type"/><s:property value="writer"/>/></a>
         <div class="summary">
           <div class="summarytxt">
-            <p><span>详细信息</span>：<span>成功的标配，配有独一无二的Aquadura密封表冠系统保护表冠（葡萄酒瓶的塞子永久不变形），50米防水。</span>书号<span>8</span>
+            <p><span>详细信息</span>：<span><s:property value="description"/></span>书号<span><s:property value="id"/></span>
           </div>
         </div>
       </div>
       <div class="listinfo">
-        <div class="listtitle"><a href=""><strong>手表名称：</strong>劳力士黄金系列防水手表</a></div>
-		<div class="listtag"><p><span class="STYLE1">劲爆价</span>：<span class="STYLE2">10086</span>元</p>
+        <div class="listtitle"><a href=""><strong>图书名称：</strong><s:property value="name"/></a></div>
+		<div class="listtag"><p><span class="STYLE1">劲爆价</span>：<span class="STYLE2"><s:property value="price"/></span>元</p>
         	  <input type="button" value="加入购物车" style="height:50px; width:100px; color:#FF0000; background-color:#FFFF00; font-size:14px;" onClick="add_shoppingcart(this);">
 	  <input type="button" value="立即购买" style="height:50px; width:100px; color:#FFFF00; background-color:#FF3300; font-size:14px;">
       </div>
 </div>
 </li>
-<li class="listbox">
-      <div class="listimg"> <a href="" title="WordPress中文博客主题Truepixel"><img class="1.jpg" src="images/1.jpg"  alt="WordPress中文博客主题Truepixel" /></a>
-        <div class="summary">
-          <div class="summarytxt">
-            <p><span>详细信息</span>：<span>成功的标配，配有独一无二的Aquadura密封表冠系统保护表冠（葡萄酒瓶的塞子永久不变形），50米防水。</span>书号<span>5</span>
-          </div>
-        </div>
-      </div>
-      <div class="listinfo">
-        <div class="listtitle"><a href=""><strong>手表名称：</strong>劳力士黄金系列防水手表</a></div>
-		<div class="listtag"><p><span class="STYLE1">劲爆价</span>：<span class="STYLE2">10086</span>元</p>
-        	  <input type="button" value="加入购物车" style="height:50px; width:100px; color:#FF0000; background-color:#FFFF00; font-size:14px;" onClick="add_shoppingcart(this);">
-	  <input type="button" value="立即购买" style="height:50px; width:100px; color:#FFFF00; background-color:#FF3300; font-size:14px;">
-      </div>
-</div>
-</li>
+</s:iterator>
 </ul>
 </div>
 	    <table>  
@@ -399,5 +446,28 @@ function account(btn){
         </tr>  
       </tfoot>  
     </table>  
+    </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">登陆</h4>
+      </div>
+      <div class="modal-body">
+        <s:form action="login" method="post" namespace="/" theme="simple">
+<label>请输入用户名</label><s:textfield placeholder="username" cssClass="form-control" name="loginUser.account" label="请输入用户名"  onBlur="checkUser()"/>
+<s:label id="accountspan" value="匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字)"></s:label><br>
+<label>请输入密码</label><s:password placeholder="password" cssClass="form-control" name="loginUser.password" label="请输入密码" onBlur="checkPassWord()"/>
+<s:label id="passwordspan" value="匹配数字和字母"></s:label><br>
+<s:submit value="登陆"   cssClass="btn btn-primary"  onclick="return queding();" />
+</s:form>
+      </div>
+    </div>
+  </div>
+  </div>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

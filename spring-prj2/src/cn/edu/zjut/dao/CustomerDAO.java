@@ -1,6 +1,6 @@
 package cn.edu.zjut.dao;
 import java.sql.Date;
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -209,7 +209,6 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 			Session session = null;
 	        session = getSession();
 	        tran = session.beginTransaction();
-	        book.setName("汉语口语");
 			session.save(book);
 			tran.commit();
 			session.close();
@@ -284,6 +283,8 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 		    String hql="from Book";  
 			Query query=session.createQuery(hql);  
 		    list= query.list();
+		    int count = query.list().size();
+		    System.out.println(count);
 			tran.commit();		
 			session.close();
 		    return list;
@@ -558,6 +559,24 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 			
 				
 	        return query.list().size();
+		}
+		@Override
+		public void orderAdd(Order order) throws ParseException {
+			// TODO 自动生成的方法存根
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+	        tran = session.beginTransaction();
+	        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+	        String datetime=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()); //获取系统时间 
+	        System.out.println(datetime);
+	        java.util.Date date=sdf.parse(datetime); 
+	        System.out.println(date);
+	        order.setSubmitTime(date);
+			session.save(order);
+			tran.commit();
+			session.close();
+			
 		}
 	}
 

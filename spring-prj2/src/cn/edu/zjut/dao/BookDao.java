@@ -9,6 +9,7 @@ public interface BookDao {
 	public List<Book> findForPage(String hql,int off,int len); 
 	           //输入hql语句，记录起始点off,和长度len来返回Book类型的数据
 	public int findAllRowCounts(String hql);
-	           //输入hql语句，查询记录总数。
+	           //输入hql语句，查询记录总数
+	List<Book> findForPageShop(String hql);
 
 }

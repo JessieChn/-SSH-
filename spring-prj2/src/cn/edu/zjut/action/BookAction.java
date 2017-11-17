@@ -22,11 +22,21 @@ public class BookAction extends ActionSupport{
 	private List<Book> books;
 	private List<Customer> customers;
 	public String paging(){
-		this.pageBean = bookService.queryForPage(1,page);
+		this.pageBean = bookService.queryForPage(10,page);
 /*		System.out.println("当前页面："+this.pageBean.getCurPage());*/
 		this.books = this.pageBean.getBooks();
 		return "success";
 	}	
+	
+	public String pagingForShop(){
+		this.pageBean = bookService.queryForPageForShop();
+/*		System.out.println("当前页面："+this.pageBean.getCurPage());*/
+		this.books = this.pageBean.getBooks();
+		return "success";
+	}
+	
+	 
+	
 
 	public String setFilter(){
 		HttpServletRequest hsr =  ServletActionContext.getRequest();		
@@ -41,6 +51,7 @@ public class BookAction extends ActionSupport{
 		System.out.println(bookwriterlocation+"~~");
 		session.put("filter_writerlocation", bookwriterlocation);
 		String bookpress = hsr.getParameter("bookpress_f");
+		System.out.print("出版社"+bookpress);
 		session.put("filter_press", bookpress);
 		String bookpricemin = hsr.getParameter("pricemin_f");
 		session.put("filter_pricemin", bookpricemin);
