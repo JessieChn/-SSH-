@@ -26,5 +26,9 @@ public interface ICustomerDAO {
 	   List getBookList();
        public List<Customer> findForPageForUser(String hql, int off, int len);
 	   public int findAllRowCountsForUser(String hql);
+	   void adminUpgrade(String id);
+	   void adminDegrade(String id);
+	   List orderListAd();
+	   List orderList(String id);
 }
 

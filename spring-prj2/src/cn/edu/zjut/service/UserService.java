@@ -111,4 +111,25 @@ public class UserService implements IUserService{
 		customerDAO.orderAdd(order);
 		
 	}
+	public void adminUpgrade(String id){
+		customerDAO.adminUpgrade(id);
+	}
+	public void adminDegrade(String id){
+		customerDAO.adminDegrade(id);
+	}
+	@Override
+	public List orderList(String id) {
+		// TODO 自动生成的方法存根
+		List<Order> list =  customerDAO.orderList(id);
+		return list;
+	}
+	public ICustomerDAO getCustomerDAO() {
+		return customerDAO;
+	}
+	@Override
+	public List orderListAd() {
+		// TODO 自动生成的方法存根
+		List list =  customerDAO.orderListAd();
+		return list;
+	}
 }

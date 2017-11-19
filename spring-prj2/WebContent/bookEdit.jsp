@@ -81,7 +81,7 @@ display:none;
 <%
     out.println("<script>");
 	out.println("alert('非书城管理员不能修改书本信息！');");
-	out.println("window.location.href='index.jsp'");
+	out.println("window.location.href='BookListT.jsp'");
 	out.println("</script>");
 	 %>
 </s:if>

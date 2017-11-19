@@ -23,7 +23,12 @@ public interface IUserService {
 	public void bookDelete(String id);
 	public List getBookById(String id);
 	public List getBookList();
-	
+	public void adminUpgrade(String id);
+	public void adminDegrade(String id);
 	public PageBean queryForPageForUser(int pageSize,int page);
+	public List orderList(String id);
+	public List orderListAd();
+	
+	
 
 }

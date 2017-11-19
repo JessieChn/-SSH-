@@ -100,14 +100,6 @@ function queding(){
 </script>
 </head>
 <body>
-<s:if test="%{#session.loginedUserPer!=1}">
-<%
-    out.println("<script>");
-	out.println("alert('非书城管理员不能修改用户信息！');");
-	out.println("window.location.href='regSuccess.jsp'");
-	out.println("</script>");
-	 %>
-</s:if>
 <nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
   <div class="col-md-12">

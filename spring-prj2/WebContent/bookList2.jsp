@@ -347,26 +347,48 @@ function account(btn){
   <div class="col-md-10 col-md-offset-1">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="navbar-brand" href="#">Bootstrap theme</a> </div>
+      <a class="navbar-brand" href="#">书子网</a> </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">首页</a></li>
+        <li><a href="#">关于我们</a></li>
+        <li><a href="#">联系方式</a></li>
       </ul>
       
       <div class="pull-right">
-      <s:if test="%{#session.loginedUserId}">
+      <s:if test="%{#session.loginedUserId}">    
+      <s:if test="%{#session.loginedUserPer==0}">  
+      <s:a href="./customerInforEdit?id=%{#session.loginedUserId}">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改当前用户信息 </button>   
+      </s:a>   
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改当前用户订单 </button>   
+      </s:if>
+      <s:if test="%{#session.loginedUserPer==1}">
+      <s:a href="./PagingForUser">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 用户操作 </button>   
+      </s:a> 
+      <s:a href="./BookAction">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 图书操作 </button>   
+      </s:a> 
+      <s:a href="./orderListAd">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 查看所有订单 </button>   
+      </s:a> 
+      </s:if>
+      <s:if test="%{#session.loginedUserPer==2}">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 日志查看 </button>   
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 权限角色管理 </button>         
+      </s:if>
       <a href="./loginOut">
-      <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>LogOut </button>
-      </a>      
+      <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>LogOut </button>
+      </a> 
       </s:if>
       <s:else>
-      <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User </button>
+      
+      <button type="button" class="btn btn-default btn-lg"  data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 登陆 </button>
+      
       </s:else>
       </div>
-      <div class="pull-right">
-        <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span> User </button>
+      <div class="pull-right">   
       </div>
     </div>
   </div>

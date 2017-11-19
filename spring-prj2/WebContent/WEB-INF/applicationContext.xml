@@ -37,6 +37,7 @@
                   <value>cn/edu/zjut/po/Customer.hbm.xml</value>
                   <value>cn/edu/zjut/po/Book.hbm.xml</value>
                   <value>cn/edu/zjut/po/Order.hbm.xml</value>
+                  <value>cn/edu/zjut/po/Log.hbm.xml</value>
              </list>
          </property>
       </bean>

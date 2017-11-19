@@ -116,52 +116,7 @@ function queding(){
     </div>
     <div class="col-md-10 col-md-offset-1">
     <div class="col-md-offset-1">
-    <s:form action="setFilter" method="post" namespace="/" theme="simple" cssClass="form-inline">
-    <label>书名</label>
-    <s:textfield cssClass="form-control" name="bookname_f" label="书名" value="%{#session.filter_book}"/>
-    <label>图书类别</label>
-    <s:select cssClass="form-control" 
-              name="booktype_f" 
-              list="#{'':'无',
-                      '文学综合馆':'文学综合馆',
-                      '童书馆':'童书馆',
-                      '教育馆':'教育馆',
-                      '人文社科馆':'人文社科馆',
-                      '经管综合馆':'经管综合馆',
-                      '励志综合馆':'励志综合馆',
-                      '生活馆':'生活馆',
-                      '艺术馆':'艺术馆',
-                      '科技馆':'科技馆',
-                      '计算机馆':'计算机馆',
-                      '杂志期刊馆':'杂志期刊馆'}" 
-              value="%{#session.filter_type}"  
-              label="图书类别"/>
-      <label>作者地区</label>
-      <s:select cssClass="form-control" 
-                name="bookwriterlocation_f" 
-                list="#{'':'无',
-                        '中国':'中国',
-                        '美国':'美国',
-                        '欧印':'欧印',
-                        '新马泰':'新马泰',
-                        '非洲南美':'非洲南美'}" 
-                        value="%{#session.filter_writerlocation}"  label="图书作者地域"/>
-    <label>出版社</label>
-    <s:select cssClass="form-control" name="bookpress_f" 
-              list="#{'':'无',
-                      '清华大学出版社':'清华大学出版社',
-                      '人民邮电出版社':'人民邮电出版社',
-                      '高等教育出版社':'高等教育出版社',
-                      '电子工业出版社':'电子工业出版社',
-                      '西安电子科技大学出版社':'西安电子科技大学出版社'}" 
-                      value="%{#session.filter_press}"  label="图书的出版社"/>
-    <label>价钱</label>：
-    <s:textfield name="pricemin_f" cssClass="form-control"  
-    value="%{#session.filter_pricemin}"/>《
-    <s:textfield name="pricemax_f" cssClass="form-control"  value="%{#session.filter_pricemax}"/>
-    <s:submit value="查询" cssClass="btn btn-default"/>
-    <a href="bookAdd.jsp"><label>点我添加图书</label></a>
-    </s:form>
+
 </div>
     
     
@@ -183,67 +138,16 @@ function queding(){
       </thead>
       <tbody>
     
-<s:iterator value="books">
+<s:iterator value="lists" id="object">
 <tr>
-<td><s:property value="id"/></td>
-<td><s:property value="name"/></td>
-<td class="td2"><div><img class="img-rounded" height="100px" width="100px"  src="images/<s:property value="picture"/>"></div></td>
-<td><s:property value="description"/></td>
-<td><s:property value="price"/></td>
-<td><s:property value="press"/></td>
-<td><s:property value="writerLocation"/></td>
-<td><s:property value="type"/></td>
-<td><s:property value="writer"/></td>
-<td><s:a href="./bookEdit?id=%{id}">修改</s:a></td>
-<td><s:a href="./bookDelete?id=%{id}">删除</s:a></td>
+<td><s:property value="object"/></td>
 </tr>
 </s:iterator>
       </tbody>
     </table>
-    <div class="col-md-offset-5">
-    <s:iterator value="pageBean">
-<label>共<s:property value="allRowCounts"/>条记录
-共<s:property value="sumPages"/>页</label>
-<nav aria-label="Page navigation">
-
-  <ul class="pagination">
-    <li>
-    <s:if test="%{curPage==1}">
-         <li><a  class="btn btn-default disabled">第一页</a></li>
-      <li><a aria-label="Previous" class="btn btn-default disabled">
-        <span aria-hidden="true">&laquo;</span>
-      </a></li>
-     </s:if>
-     <s:else>
-     <li><a href="BookAction?page=1">第一页</a></li>
-      <li><a href="BookAction?page=<s:property value="%{curPage-1}"/>" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a></li>
-     </s:else>
-    </li>
-    <li><a  class="btn btn-default disabled"><s:property value="curPage"/></a></li>
-    <s:if test="%{curPage!=sumPages}">
-        <li>
-      <a href="BookAction?page=<s:property value="%{curPage+1}"/>" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-    <li><a href="BookAction?page=<s:property value="%{sumPages}"/>">最后一页</a></li>
-</s:if>
-<s:else>
-         
-      <li><a aria-label="next" class="btn btn-default disabled">
-        <span aria-hidden="true">&raquo;</span>
-      </a></li>
-      <li><a  class="btn btn-default disabled">最后一页</a></li>
-</s:else>
-  </ul>
-</nav>
-</s:iterator>
-</div>
-     </div>
-  </div> 
-</div>
+    </div>
+    </div>
+    </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">

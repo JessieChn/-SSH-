@@ -20,6 +20,7 @@ import org.hibernate.Transaction;
 
 import cn.edu.zjut.po.Book;
 import cn.edu.zjut.po.Customer;
+import cn.edu.zjut.po.Log;
 import cn.edu.zjut.po.Order;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -37,6 +38,9 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 			session = getSession();
 			tran = session.beginTransaction();
 			session.save(transientInstance);
+			Log log = new Log("ID号为"+transientInstance.getCustomerId()+"的新用户"
+			                 +transientInstance.getName()+"刚刚注册成为了书子网会员");
+			session.save(log);
 			/*session.delete(cus);*/
 			Customer cus = (Customer)session.get(transientInstance.getClass(),1);
 		
@@ -71,7 +75,10 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 		   loginSession.put("loginedUser",customer.getName());
 		   loginSession.put("loginedUserId", customer.getCustomerId());
 		   loginSession.put("loginedUserPer", customer.getPermission());
-				 
+			Log log = new Log("ID号为"+customer.getCustomerId()+"的用户"
+	                +customer.getName()+"刚刚成功登陆了书子网");
+	        session.save(log);
+	        tran.commit();
            
 		   return true;
 		  }  
@@ -177,6 +184,9 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 /*				  Order order = new Order();
 				  order.setCustomer(transientInstance);
 				  session.save(order);*/
+					Log log = new Log("ID号为"+transientInstance.getCustomerId()+"的用户"
+			                +transientInstance.getName()+"刚刚成功修改了用户信息");
+			        session.save(log);
 				tran.commit();		
 			}
 			catch(RuntimeException re){
@@ -200,6 +210,9 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 	        session = this.getSession();  
 	        tran = session.beginTransaction();  
 	        session.delete(customer);  
+			Log log = new Log("ID号为"+customer.getCustomerId()+"的用户"+
+	                "刚刚被删除了用户信息");
+	        session.save(log);
 	        tran.commit();
 			
 		}
@@ -210,6 +223,11 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 	        session = getSession();
 	        tran = session.beginTransaction();
 			session.save(book);
+			Log log = new Log("ID号为"+book.getId()+"的图书:"+book.getName()+
+					" 详细信息:"+book.getDescription()+
+					" 价钱:"+book.getPrice()+
+	                "刚刚添加进了书子网");
+	        session.save(log);
 			tran.commit();
 			session.close();
 		}
@@ -224,6 +242,9 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 			Query query=session.createQuery(hql);  
 			query.setParameter(0, Integer.parseInt(id));
 			list= query.list();
+			Log log = new Log("ID号为"+id+"的图书信息"+
+	                "刚刚被图书管理员浏览了");
+	        session.save(log);
 			tran.commit();		
 		    session.close();
 		    return list;
@@ -252,6 +273,9 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 		   query.setParameter(6,book.getWriter());
 		   query.setParameter(7,book.getId());
 		   query.executeUpdate();
+			Log log = new Log("ID号为"+book.getId()+"的图书:"+book.getName()+
+	                "刚刚被图书管理员更新了");
+	        session.save(log);
 		   tran.commit();		
 		   session.close();
 		}
@@ -265,6 +289,9 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 	        session = this.getSession();  
 	        tran = session.beginTransaction();  
 	        session.delete(book);  
+			Log log = new Log("ID号为"+id+"的图书"+
+	                "刚刚被图书管理员删除了");
+	        session.save(log);
 	        tran.commit();
 			
 		}
@@ -574,8 +601,99 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 	        System.out.println(date);
 	        order.setSubmitTime(date);
 			session.save(order);
+			Customer customer = order.getCustomer();
+			Log log = new Log("ID号为"+customer.getCustomerId()+"的用户:"+customer.getName()+
+	                "刚刚在书子网下了新订单,订单详细内容如下："+order.getOrderDescription());
+	        session.save(log);
 			tran.commit();
 			session.close();
+			
+		}
+		
+		public void adminUpgrade(String id)  {
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+		    tran = session.beginTransaction();
+		    String hql="update Customer c set c.permission=1 where customerID=?";
+				  		 
+		   Query query=session.createQuery(hql);  
+		   query.setParameter(0,id);
+		   query.executeUpdate();
+			Log log = new Log("ID号为"+id+"的用户"+
+	                "刚刚成功升级为管理员用户了");
+	        session.save(log);
+		   tran.commit();		
+		   session.close();
+		}
+		
+		public void adminDegrade(String id)  {
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+		    tran = session.beginTransaction();
+		    String hql="update Customer c set c.permission=0 where customerID=?";
+				  		 
+		   Query query=session.createQuery(hql);  
+		   query.setParameter(0,id);
+		   query.executeUpdate();
+			Log log = new Log("ID号为"+id+"的用户"+
+	                "刚刚成功降级为普通用户了");
+	        session.save(log);
+	        
+	       
+		   tran.commit();	
+		  
+/*	多表查询 测试语句	   
+ * query = session.createQuery("select o.customer from Order o,Customer c where c.customerId=o.customer.customerId and c.customerId=1");
+		   int size = query.list().size();
+		   List list = query.list();
+		   Iterator its=list.iterator();  
+		   while(its.hasNext()){  
+			   Customer customer=(Customer)its.next();   
+			   System.out.println(customer.getAccount()); 
+			  }  */
+		   //System.out.println("size"+size);
+		   
+		   session.close();
+		}
+		@Override
+		public List orderListAd() {
+			// TODO 自动生成的方法存根
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+		    tran = session.beginTransaction();
+		    System.out.println("~~~~前");
+		    Query query = session.createQuery("select o.orderId,o.orderPicSet, o.orderDescription,"
+		    		+ "o.receiverName ,o.phoneNumber,o.address,o.wayToSend,o.submitTime,o.valiStatu,"
+		    		+ "o.orderStatu"
+		    		+ " from Order o,Customer c where c.customerId=o.customer.customerId");
+		
+		    List list = query.list();	
+			System.out.println("~~~~"+list.size());
+/*			Iterator its=list.iterator();  
+			 while(its.hasNext()){  
+				   String desc=(String)its.next();   
+				   System.out.println(desc); 
+				  }*/
+				tran.commit();		
+				session.close();
+			return list;
+			
+			
+		}
+		@Override
+		public List orderList(String id) {
+			// TODO 自动生成的方法存根
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+		    tran = session.beginTransaction();
+		    Query query = session.createQuery("select o from Order o,Customer c where c.customerId=o.customer.customerId and c.customerId=?");
+		    query.setParameter(0,id);
+		    List<Order> list = query.list();
+			return list;
 			
 		}
 	}

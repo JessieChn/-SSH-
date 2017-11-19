@@ -27,7 +27,13 @@ public class UserAction extends ActionSupport {
 	private Customer loginUser;
 	private IUserService userService = null;
 	private List lists;
-    private File upload;// 上传的文件
+	private List<Order> orders;
+	private ArrayList listP = new ArrayList();
+    public void setListP(ArrayList listP) {
+		this.listP = listP;
+	}
+
+	private File upload;// 上传的文件
     private String uploadFileName;//上传的文件名陈
     private PageBean pageBean;
     private List<Customer> customers; 
@@ -110,9 +116,16 @@ public class UserAction extends ActionSupport {
 	
 	public String customerInforEdit(){
 		String a = ServletActionContext.getRequest().getParameter("id");
-        System.out.println(a);
+        System.out.println(a+"~~~~");
+        Map<String, Object> loginSession =  ActionContext.getContext().getSession();
+        //System.out.println(loginSession.get("loginedUserId")+"~~~~");
         lists = userService.getCustomerInfoById(a);
-		return "success";		
+        if(loginSession.get("loginedUserId").toString().equals(a)||loginSession.get("loginedUserPer").toString().equals("1")){
+        	
+        	System.out.println(loginSession.get("loginedUserId")+"~~~~");
+        	return "success";
+        }
+		return "false";		
 	}
 	public String customerInforUpdater(){
 		userService.customerInfoUpdate(loginUser);
@@ -238,9 +251,18 @@ public class UserAction extends ActionSupport {
 		order.setOrderDescription(desc);
 		order.setReceiverName(username);
 		order.setAddress(customer.getAddress());
+        String arr[] = urls.split("\\|");
+        for (int i = 0; i < arr.length; i++) {
+        	listP.add(arr[i]);
+           
+        }
 		
 		return "success";
 
+	}
+	
+	public ArrayList getListP() {
+		return listP;
 	}
 	public String orderAdd() throws ParseException{
 		Map<String, Object> session = ActionContext.getContext().getSession();
@@ -261,6 +283,41 @@ public class UserAction extends ActionSupport {
 	}
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+	
+	public String adminUpgrade(){
+		String a = ServletActionContext.getRequest().getParameter("id");
+		userService.adminUpgrade(a);
+		return "success";
+	}
+	
+	public String adminDegrade(){
+		String a = ServletActionContext.getRequest().getParameter("id");
+		userService.adminDegrade(a);
+		return "success";
+	}
+	
+	public String orderListAd(){
+		lists =  userService.orderListAd();
+		return "success";
+	}		
+	public String orderList(){
+		Map<String, Object> session = ActionContext.getContext().getSession();
+		String userid  = session.get("loginedUserId").toString();
+		userService.orderList(userid);
+		return "success";
+	}
+	public List<Order> getOrders() {
+		return orders;
+	}
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
 	}
 
 }

@@ -75,8 +75,8 @@ function queding(){
 <s:if test="%{#session.loginedUserPer!=1}">
 <%
     out.println("<script>");
-	out.println("alert('非书城管理员不能下单！');");
-	out.println("window.location.href='index.jsp'");
+	out.println("alert('非书城管理员不能添加书籍！');");
+	out.println("window.location.href='BookListT.jsp'");
 	out.println("</script>");
 	 %>
 </s:if>

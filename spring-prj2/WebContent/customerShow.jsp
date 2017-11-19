@@ -11,11 +11,11 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<s:if test="%{#session.loginedUserPer!=1}">
+<s:if test="%{#session.loginedUserPer==0}">
 <%
     out.println("<script>");
-	out.println("alert('非书城管理员查看用户信息！');");
-	out.println("window.location.href='index.jsp'");
+	out.println("alert('普通用户不能查看用户信息！');");
+	out.println("window.location.href='BookListT.jsp'");
 	out.println("</script>");
 	 %>
 </s:if>
@@ -130,8 +130,23 @@
 <td><s:if test="%{permission==0}">普通用户</s:if>
 <s:if test="%{permission==1}">书城管理员</s:if>
 <s:if test="%{permission==2}">系统管理员</s:if></td>
+<s:if test="%{#session.loginedUserPer==1}">
 <td><s:a href="./customerInforEdit?id=%{customerId}">修改</s:a></td>
 <td><s:a href="./customerInforDelete?id=%{customerId}">删除</s:a></td>
+</s:if>
+<s:else>
+<td>
+<s:if test="%{permission==0}">
+<s:a href="./adminUpgrade?id=%{customerId}">升级为书城管理员</s:a>  
+</s:if>
+<s:if test="%{permission==1}">
+<s:a href="./adminDegrade?id=%{customerId}">降级为普通用户</s:a> 
+</s:if>
+<s:if test="%{permission==2}">
+无操作
+</s:if>
+</td>
+</s:else>
 </tr>
 </s:iterator> 
 </table>
