@@ -68,7 +68,7 @@
           <result name="success">/ordershow.jsp</result>
        </action>
        <action name="orderAdd" class="userAction" method="orderAdd">
-          <result name="success">/bookListT.jsp</result>
+          <result name="success">/BookListT.jsp</result>
        </action>
 <!--       <action name="BookList" class="userAction" method="getBookList">
           <result name="success">/bookList2.jsp</result>
@@ -88,5 +88,15 @@
        <action name="orderList" class="userAction" method="orderList">
           <result name="success">/orderList.jsp</result>
        </action>
+       <action name="getLog" class="userAction" method="getLog">
+          <result name="success">/getLog.jsp</result>
+       </action>
+       <action name="orderVerify" class="userAction" method="orderVerify">
+          <result name="success">/orderListT.jsp</result>
+       </action>
+       <action name="orderStatu" class="userAction" method="orderStatu">
+          <result name="success">/orderListT.jsp</result>
+       </action>
+       
       </package>
 </struts>

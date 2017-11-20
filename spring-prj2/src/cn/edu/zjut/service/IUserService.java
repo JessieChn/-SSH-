@@ -28,6 +28,9 @@ public interface IUserService {
 	public PageBean queryForPageForUser(int pageSize,int page);
 	public List orderList(String id);
 	public List orderListAd();
+	public List getLog();
+	public void orderVerify(String id,String verify);
+	public void orderStatu(String id,String statu);
 	
 	
 

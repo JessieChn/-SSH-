@@ -124,9 +124,11 @@ margin:0px 0px 0px 0px;
       <s:if test="%{#session.loginedUserId}">    
       <s:if test="%{#session.loginedUserPer==0}">  
       <s:a href="./customerInforEdit?id=%{#session.loginedUserId}">
-      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改当前用户信息 </button>   
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改我的信息 </button>   
       </s:a>   
-      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改当前用户订单 </button>   
+      <s:a href="./orderList?id=%{#session.loginedUserId}">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 查看我的订单 </button>   
+      </s:a>
       </s:if>
       <s:if test="%{#session.loginedUserPer==1}">
       <s:a href="./PagingForUser">
@@ -135,12 +137,17 @@ margin:0px 0px 0px 0px;
       <s:a href="./BookAction">
       <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 图书操作 </button>   
       </s:a> 
+      <s:a href="./orderListAd">
       <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 查看所有订单 </button>   
-      
+      </s:a> 
       </s:if>
       <s:if test="%{#session.loginedUserPer==2}">
-      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 日志查看 </button>   
+      <s:a href="./getLog">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 日志查看 </button>  
+      </s:a>
+      <s:a href="./PagingForUser"> 
       <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 权限角色管理 </button>         
+      </s:a>
       </s:if>
       <a href="./loginOut">
       <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>LogOut </button>
@@ -223,6 +230,28 @@ margin:0px 0px 0px 0px;
     </div>    
     <s:label id="namespan" value="匹配汉字"></s:label>
   </div>
+<%--     <div class="form-group">
+    <label class="col-md-2 control-label">快递选择</label>
+    <div class="col-md-6">
+      <s:select cssClass="form-control" name="order.wayToSend" 
+                list="#{'顺丰':'顺丰',
+                        '圆通':'圆通',
+                        '中通':'中通',
+                        '韵达':'韵达',
+                        }" 
+                value="顺丰"/>  
+    </div>
+  </div> --%>
+  
+    <div class="form-group">
+    <label class="col-md-2 control-label">快递选择</label>
+    <div class="col-md-2">
+      <s:select cssClass="form-control" name="order.wayToSend" 
+                list="#{'顺丰':'顺丰','圆通':'圆通','中通':'中通','韵达':'韵达'}" 
+                value="顺丰"  
+                />   
+    </div>
+    </div>
   <div class="form-group">
     <label class="col-md-2 control-label">收货地址</label>
     <div class="col-md-6">
@@ -250,6 +279,24 @@ margin:0px 0px 0px 0px;
 </div>
 </div>
 
-
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">登陆</h4>
+      </div>
+      <div class="modal-body">
+        <s:form action="login" method="post" namespace="/" theme="simple">
+<label>请输入用户名</label><s:textfield placeholder="username" cssClass="form-control" name="loginUser.account" label="请输入用户名"  onBlur="checkUser()"/>
+<s:label id="accountspan" value="匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字)"></s:label><br>
+<label>请输入密码</label><s:password placeholder="password" cssClass="form-control" name="loginUser.password" label="请输入密码" onBlur="checkPassWord()"/>
+<s:label id="passwordspan" value="匹配数字和字母"></s:label><br>
+<s:submit value="登陆"   cssClass="btn btn-primary"  onclick="return queding();" />
+</s:form>
+      </div>
+    </div>
+  </div>
+  </div>
 </body>
 </html>

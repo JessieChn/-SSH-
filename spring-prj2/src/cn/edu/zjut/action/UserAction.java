@@ -27,6 +27,32 @@ public class UserAction extends ActionSupport {
 	private Customer loginUser;
 	private IUserService userService = null;
 	private List lists;
+	private List<List <Object[]>> listoo;
+	private List<List> listTT = new ArrayList();
+	private List<Log> listl;
+
+
+	public List<List> getListTT() {
+		return listTT;
+	}
+	public void setListTT(List<List> listTT) {
+		this.listTT = listTT;
+	}
+	public List<List<Object[]>> getListoo() {
+		return listoo;
+	}
+	public void setListoo(List<List<Object[]>> listoo) {
+		this.listoo = listoo;
+	}
+
+	private List<Object[]> listo;
+	public List<Object[]> getListo() {
+		return listo;
+	}
+	public void setListo(List<Object[]> listo) {
+		this.listo = listo;
+	}
+
 	private List<Order> orders;
 	private ArrayList listP = new ArrayList();
     public void setListP(ArrayList listP) {
@@ -198,7 +224,7 @@ public class UserAction extends ActionSupport {
 		System.out.print("~~!!page="+page);
 		if(ServletActionContext.getRequest().getParameter("page") == null)
         //System.out.println("page="+a);
-		this.pageBean = userService.queryForPageForUser(1,page);
+		this.pageBean = userService.queryForPageForUser(10,page);
 		else
 			this.pageBean = userService.queryForPageForUser(1,Integer.parseInt(ServletActionContext.getRequest().getParameter("page")));	
 		this.customers = this.pageBean.getCustomers();
@@ -297,14 +323,48 @@ public class UserAction extends ActionSupport {
 		return "success";
 	}
 	
+	public String orderVerify(){
+		String id = ServletActionContext.getRequest().getParameter("id");
+		String verify = ServletActionContext.getRequest().getParameter("verify");
+		userService.orderVerify(id,verify);
+		return "success";
+	}
+	
+	public String orderStatu(){
+		String id = ServletActionContext.getRequest().getParameter("id");
+		String statu = ServletActionContext.getRequest().getParameter("statu");
+		userService.orderStatu(id,statu);
+		return "success";
+	}
+	
 	public String orderListAd(){
-		lists =  userService.orderListAd();
+		String urls="";
+		List listT = new ArrayList();
+		//List<List> listTT = new ArrayList();
+		listo =  userService.orderListAd();
+/*		for(Object[] object : listo){
+			urls = (String)object[1];
+			System.out.println("urls"+urls);
+			String arr[] = urls.split("\\|");
+	        for (int i = 0; i < arr.length; i++) {
+	        	System.out.println(arr[i]);
+	            listT.add(arr[i]);
+	        }	
+	        listTT.add(listT);
+		}*/
+/*		for(List<List <Object[]>> ListLL : listTT){
+			System.out.println("~~~~~");
+			for(List<Object[]> listl : ListLL){
+				System.out.println("!!!");
+			}
+		}*/
+        	
+        
 		return "success";
 	}		
 	public String orderList(){
-		Map<String, Object> session = ActionContext.getContext().getSession();
-		String userid  = session.get("loginedUserId").toString();
-		userService.orderList(userid);
+		String a = ServletActionContext.getRequest().getParameter("id");
+		listo = userService.orderList(a);
 		return "success";
 	}
 	public List<Order> getOrders() {
@@ -318,6 +378,17 @@ public class UserAction extends ActionSupport {
 	}
 	public void setPage(int page) {
 		this.page = page;
+	}
+	public String getLog(){
+		listl = userService.getLog();
+		return "success";
+		
+	}
+	public List<Log> getListl() {
+		return listl;
+	}
+	public void setListl(List<Log> listl) {
+		this.listl = listl;
 	}
 
 }

@@ -10,6 +10,9 @@ public class Log {
 	private int logId;
 	private Timestamp submitTime;
 	private String description;
+	public Log(){
+		
+	}
 	public Log(String description){
 		this.description = description;
 		this.submitTime = new Timestamp(new Date().getTime());  

@@ -17,6 +17,8 @@
 <script type="text/javascript" src="js/lrtk.js"></script>
 <script type="text/javascript"></script>
 <style>
+
+
 table {
 
      border-collapse: collapse;
@@ -57,6 +59,46 @@ tbody tr:hover {
 } 
 </style>
 <script type="text/javascript">
+
+function check(name,reg,spanname,okinfor,errorinfor)
+{
+    var flag;
+	var val=document.getElementsByName(name)[0].value;
+	var spanname2=document.getElementById(spanname);
+	if(reg.test(val)){
+	spanname2.innerHTML = okinfor;
+	flag=true;
+	}
+	else{
+	spanname2.innerHTML = errorinfor;
+	flag = false;
+	}
+	return flag;
+}
+
+function checkUser(){
+    var reg = new RegExp("^[a-zA-Z][a-zA-Z0-9]{4,15}$");
+    var flag = check("loginUser.account",reg,"accountspan","正确","错误");
+    return flag;
+}
+
+function checkPassWord(){
+    var reg = new RegExp("^[A-Za-z0-9]+$");
+    var flag = check("loginUser.password",reg,"passwordspan","正确","错误");
+    return flag;
+}
+
+function queding(){
+	if(checkUser()==true&&checkPassWord()==true){
+		alert("格式正确！");
+		return true;
+	}
+	else 
+		{
+		alert("格式错误！打回重写");
+		return false;
+		}
+}
 function getCookie(c_name)
 {
 	if (document.cookie.length>0)
@@ -359,9 +401,11 @@ function account(btn){
       <s:if test="%{#session.loginedUserId}">    
       <s:if test="%{#session.loginedUserPer==0}">  
       <s:a href="./customerInforEdit?id=%{#session.loginedUserId}">
-      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改当前用户信息 </button>   
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改我的信息 </button>   
       </s:a>   
-      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 修改当前用户订单 </button>   
+      <s:a href="./orderList?id=%{#session.loginedUserId}">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 查看我的订单 </button>   
+      </s:a>
       </s:if>
       <s:if test="%{#session.loginedUserPer==1}">
       <s:a href="./PagingForUser">
@@ -375,8 +419,12 @@ function account(btn){
       </s:a> 
       </s:if>
       <s:if test="%{#session.loginedUserPer==2}">
-      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 日志查看 </button>   
+      <s:a href="./getLog">
+      <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 日志查看 </button>  
+      </s:a>
+      <s:a href="./PagingForUser"> 
       <button type="button" class="btn btn-default btn-lg"  > <span class="glyphicon glyphicon-user" aria-hidden="true"></span> 权限角色管理 </button>         
+      </s:a>
       </s:if>
       <a href="./loginOut">
       <button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>LogOut </button>

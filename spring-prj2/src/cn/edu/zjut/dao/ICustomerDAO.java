@@ -30,5 +30,8 @@ public interface ICustomerDAO {
 	   void adminDegrade(String id);
 	   List orderListAd();
 	   List orderList(String id);
+	   List getLog();
+	   void orderVerify(String id,String verify);
+	   void orderStatu(String id, String statu);
 }
 

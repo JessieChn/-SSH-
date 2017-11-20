@@ -120,7 +120,7 @@ public class UserService implements IUserService{
 	@Override
 	public List orderList(String id) {
 		// TODO 自动生成的方法存根
-		List<Order> list =  customerDAO.orderList(id);
+		List list =  customerDAO.orderList(id);
 		return list;
 	}
 	public ICustomerDAO getCustomerDAO() {
@@ -131,5 +131,20 @@ public class UserService implements IUserService{
 		// TODO 自动生成的方法存根
 		List list =  customerDAO.orderListAd();
 		return list;
+	}
+	public List getLog(){
+		List list = customerDAO.getLog();
+		return list;
+	}
+	@Override
+	public void orderVerify(String id,String verify) {
+		customerDAO.orderVerify(id,verify);
+		
+	}
+	@Override
+	public void orderStatu(String id, String statu) {
+		// TODO 自动生成的方法存根
+		customerDAO.orderStatu(id,statu);
+		
 	}
 }

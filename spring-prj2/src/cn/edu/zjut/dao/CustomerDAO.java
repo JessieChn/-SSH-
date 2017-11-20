@@ -316,6 +316,22 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 			session.close();
 		    return list;
 		}
+		
+		public List getLog() {
+			Transaction tran = null;
+			Session session = null;
+			List<Log> list;
+			session = getSession();
+		    tran = session.beginTransaction();
+		    String hql="from Log";  
+			Query query=session.createQuery(hql);  
+		    list= query.list();
+		    int count = query.list().size();
+		    System.out.println(count);
+			tran.commit();		
+			session.close();
+		    return list;
+		}
 		@Override
 		public List<Customer> findForPageForUser(String hql, int off, int len) /*{
 			Session session = this.getSessionFactory().openSession();
@@ -664,7 +680,6 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 			Session session = null;
 	        session = getSession();
 		    tran = session.beginTransaction();
-		    System.out.println("~~~~前");
 		    Query query = session.createQuery("select o.orderId,o.orderPicSet, o.orderDescription,"
 		    		+ "o.receiverName ,o.phoneNumber,o.address,o.wayToSend,o.submitTime,o.valiStatu,"
 		    		+ "o.orderStatu"
@@ -690,11 +705,58 @@ public class CustomerDAO extends BaseHibernateDAO implements ICustomerDAO{
 			Session session = null;
 	        session = getSession();
 		    tran = session.beginTransaction();
-		    Query query = session.createQuery("select o from Order o,Customer c where c.customerId=o.customer.customerId and c.customerId=?");
-		    query.setParameter(0,id);
-		    List<Order> list = query.list();
+		    
+		    Query query = session.createQuery("select o.orderId,o.orderPicSet, o.orderDescription,"
+		    		+ "o.receiverName ,o.phoneNumber,o.address,o.wayToSend,o.submitTime,o.valiStatu,"
+		    		+ "o.orderStatu"
+		    		+ " from Order o,Customer c where c.customerId=o.customer.customerId and c.customerId=?");
+		    System.out.print("执行到这里了");
+		    query.setParameter(0,Integer.parseInt(id));
+		    List list = query.list();
 			return list;
 			
+		}
+		@Override
+		public void orderVerify(String id,String verify) {
+			// TODO 自动生成的方法存根
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+		    tran = session.beginTransaction();
+		    String hql="update Order o set o.valiStatu=? where o.orderId=?";
+				  		 
+		   Query query=session.createQuery(hql);  
+		   query.setParameter(0,Integer.parseInt(verify));
+		   query.setParameter(1,Integer.parseInt(id));
+		   query.executeUpdate();
+			Log log = new Log("ID号为"+id+"的订单"+
+	                "刚刚进行了审核状态修改");
+	        session.save(log);
+	        
+	       
+		   tran.commit();
+			
+		}
+		@Override
+		public void orderStatu(String id, String statu) {
+			// TODO 自动生成的方法存根
+			// TODO 自动生成的方法存根
+			Transaction tran = null;
+			Session session = null;
+	        session = getSession();
+		    tran = session.beginTransaction();
+		    String hql="update Order o set o.orderStatu=? where o.orderId=?";
+				  		 
+		   Query query=session.createQuery(hql);  
+		   query.setParameter(0,Integer.parseInt(statu));
+		   query.setParameter(1,Integer.parseInt(id));
+		   query.executeUpdate();
+			Log log = new Log("ID号为"+id+"的订单"+
+	                "刚刚进行了快递状态修改");
+	        session.save(log);
+	        
+	       
+		   tran.commit();
 		}
 	}
 
